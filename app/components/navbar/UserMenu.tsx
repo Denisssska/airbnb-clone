@@ -5,9 +5,11 @@ import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/hooks/useRegisterModal";
 
+import useLoginModal from "@/hooks/useLoginModal";
+
 const UserMenu = () => {
     const registerModal = useRegisterModal();
-
+    const loginModal = useLoginModal();
     const [isOpen, setIsOpen] = useState(false);
     const toggleOpen = useCallback(() => {
         setIsOpen(!isOpen)
@@ -46,7 +48,7 @@ const UserMenu = () => {
                  '>
                     <div className='flex flex-col cursor-pointer'>
                         <>
-                            <MenuItem label={'Login'} onClick={registerModal.onOpen}/>
+                            <MenuItem label={'Login'} onClick={loginModal.onOpen}/>
                             <MenuItem label={'Sign up'} onClick={registerModal.onOpen}/>
                         </>
                     </div>
