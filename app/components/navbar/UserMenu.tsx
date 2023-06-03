@@ -4,28 +4,37 @@ import {AiOutlineMenu} from "react-icons/ai";
 import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/hooks/useRegisterModal";
-
 import useLoginModal from "@/hooks/useLoginModal";
 import {signOut} from "next-auth/react";
-
 import {User} from "@prisma/client";
+import useRentModal from "@/hooks/useRentModal";
 
 interface UserMenuProps {
     currentUser: User | null
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
-
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
+    const rentModal = useRentModal();
+
     const [isOpen, setIsOpen] = useState(false);
+
     const toggleOpen = useCallback(() => {
         setIsOpen(!isOpen)
     }, [isOpen])
+
+    const onRent = useCallback(() => {
+        if (!currentUser) return loginModal.onOpen();
+        rentModal.onOpen();
+
+    }, [currentUser, loginModal, rentModal])
+
     return (
         <div className='relative'>
             <div className='flex flex-row items-center gap-3'>
                 <div
+                    onClick={onRent}
                     className='
                     hidden md:block
                      text-sm font-semibold
@@ -64,8 +73,7 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                             }}/>
                             <MenuItem label={'My properties'} onClick={() => {
                             }}/>
-                            <MenuItem label={'Airbnb my home'} onClick={() => {
-                            }}/>
+                            <MenuItem label={'Airbnb my home'} onClick={rentModal.onOpen}/>
                             <hr/>
                             <MenuItem label={'Logout'} onClick={signOut}/>
 
