@@ -1,9 +1,8 @@
 'use client';
-
 import Select from 'react-select'
 import React from "react";
 import useCountries from "@/hooks/useCountries";
-
+import ReactCountryFlag from "react-country-flag";
 export type CountrySelectValue = {
     flag: string;
     label: string;
@@ -21,28 +20,28 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
                                                          value,
                                                          onChange
                                                      }) => {
-    const {getAll,countries} = useCountries();
-    console.log(getAll())
-    console.log(countries)
+    const {getAll} = useCountries();
+
     return (
         <div>
             <Select
                 placeholder="Anywhere"
                 isClearable
-                options={getAll()}
-                value={value}
+                options={getAll() as any}
+                value={value as any}
                 onChange={(newValue) => onChange(newValue as CountrySelectValue)}
-                formatOptionLabel={(data,formatOptionLabelMeta) => {
-                    console.log(formatOptionLabelMeta)
+                formatOptionLabel={(data) => {
                     return(
-                        <div className="
-          flex flex-row items-center gap-3">
-                            <div>{data.flag}</div>
+                        <div className="flex flex-row items-center gap-3">
+                            <ReactCountryFlag
+                                className="w-[1em] h-[1em]"
+                                countryCode={data.value}
+                                svg
+                                aria-label={data.label}
+                            />
                             <div>
                                 {data.label},
-                                <span className="text-neutral-500 ml-1">
-                {data.region}
-              </span>
+                                <span className="text-neutral-500 ml-1"> {data.region}</span>
                             </div>
                         </div>
                     )
@@ -57,7 +56,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
                     borderRadius: 6,
                     colors: {
                         ...theme.colors,
-                        primary: 'black',
+                        primary: '#636363',
                         primary25: '#ffe4e6'
                     }
                 })}

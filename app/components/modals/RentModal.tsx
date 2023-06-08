@@ -1,34 +1,27 @@
 'use client';
 
 import axios from 'axios';
-import { toast } from 'react-hot-toast';
-import {
-    FieldValues,
-    SubmitHandler,
-    useForm
-} from 'react-hook-form';
+import {toast} from 'react-hot-toast';
+import {FieldValues, SubmitHandler, useForm} from 'react-hook-form';
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/navigation';
-import { useMemo, useState } from "react";
-
+import {useRouter} from 'next/navigation';
+import {useMemo, useState} from "react";
 import useRentModal from '@/hooks/useRentModal';
-
 import Modal from "./Modal";
-
 import CategoryInput from '../inputs/CategoryInput';
 import CountrySelect from "../inputs/CountrySelect";
-import { categories } from '../navbar/Categories';
-
+import {categories} from '../navbar/Categories';
 import Input from '../inputs/Input';
 import Heading from '../Heading';
+import {MapProps} from "@/components/Map";
 
 enum STEPS {
-    CATEGORY = 0,
-    LOCATION = 1,
-    INFO = 2,
-    IMAGES = 3,
-    DESCRIPTION = 4,
-    PRICE = 5,
+    CATEGORY,
+    LOCATION,
+    INFO,
+    IMAGES,
+    DESCRIPTION,
+    PRICE,
 }
 
 const RentModal = () => {
@@ -68,12 +61,11 @@ const RentModal = () => {
     const bathroomCount = watch('bathroomCount');
     const imageSrc = watch('imageSrc');
 
-    const Map = useMemo(() => dynamic(() => import('../Map'), {
+    const Map = useMemo(() => dynamic<Partial<MapProps>>(() => import('../Map'), {
         ssr: false
     }), [location]);
 
-    console.log(location)
-    const setCustomValue = (id: string, value: any) => {
+    const setCustomValue = (id: string, value) => {
         setValue(id, value, {
             shouldDirty: true,
             shouldTouch: true,
@@ -93,7 +85,6 @@ const RentModal = () => {
         if (step !== STEPS.PRICE) {
             return onNext();
         }
-
         setIsLoading(true);
 
         axios.post('/api/listings', data)
@@ -116,7 +107,6 @@ const RentModal = () => {
         if (step === STEPS.PRICE) {
             return 'Create'
         }
-
         return 'Next'
     }, [step]);
 
@@ -170,7 +160,7 @@ const RentModal = () => {
                     value={location}
                     onChange={(value) => setCustomValue('location', value)}
                 />
-                {/*<Map center={location?.latlng} />*/}
+                <Map center={location?.latLng}/>
             </div>
         );
     }
@@ -236,7 +226,7 @@ const RentModal = () => {
                     errors={errors}
                     required
                 />
-                <hr />
+                <hr/>
                 <Input
                     id="description"
                     label="Description"
