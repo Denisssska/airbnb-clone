@@ -11,17 +11,17 @@ export const authOptions: AuthOptions = {
     providers: [
         GithubProvider({
             id: 'github', name: 'Github',
-            clientId: process.env.GITHUB_ID as string,
-            clientSecret: process.env.GITHUB_SECRET as string
+            clientId: process.env.GITHUB_ID!,
+            clientSecret: process.env.GITHUB_SECRET!
         }),
         GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID as string,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!
         }),
         CredentialsProvider({
             name: 'credentials',
             credentials: {
-                email: {label: 'email', type: 'text'},
+                email: {label: 'email', type: 'email'},
                 password: {label: 'password', type: 'password'}
             },
             async authorize(credentials) {
