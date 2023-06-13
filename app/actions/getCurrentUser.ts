@@ -20,7 +20,7 @@ export default async function getCurrentUser() {
         if (!currentUser) {
             return null
         }
-        console.log(currentUser)
+
         return currentUser;
     } catch (error: any) {
         return null

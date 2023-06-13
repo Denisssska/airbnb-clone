@@ -55,7 +55,7 @@ const RentModal = () => {
             description: '',
         }
     });
-    console.log(errors)
+
     const location = watch('location');
     const category = watch('category');
     const guestCount = watch('guestCount');
