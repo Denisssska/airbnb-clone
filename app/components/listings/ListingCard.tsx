@@ -38,7 +38,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
     const { getByValue } = useCountries();
 
     const location = getByValue(data.locationValue);
-
+    console.log(location,'location')
+    console.log(data,'data')
+    console.log(reservation,'reservation')
     const handleCancel = useCallback(
         (e: React.MouseEvent<HTMLButtonElement>) => {
             e.stopPropagation();
@@ -96,11 +98,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
                         src={data.imageSrc}
                         alt="Listing"
                     />
-                    <div className="
-            absolute
-            top-3
-            right-3
-          ">
+                    <div className=" absolute top-3  right-3 ">
                         <HeartButton
                             listingId={data.id}
                             currentUser={currentUser!}
